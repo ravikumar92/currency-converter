@@ -1,5 +1,6 @@
 package com.learning.currencyconverter.currency;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class CurrencyController {
     }
 
     @PostMapping
-    public void saveCurrency(@RequestBody Currency currency){
-        currencyService.persistCurrency(currency);
+    public List<Currency> saveCurrency(@RequestBody Currency currency) throws JsonProcessingException {
+        return currencyService.persistCurrency(currency);
     }
 }

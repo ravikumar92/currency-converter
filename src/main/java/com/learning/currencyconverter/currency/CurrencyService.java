@@ -1,5 +1,7 @@
 package com.learning.currencyconverter.currency;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.learning.currencyconverter.converter.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,10 @@ public class CurrencyService {
         return currencyRepository.findAll();
     }
 
-    public void persistCurrency(Currency currency) {
-        System.out.println(currency);
-        System.out.println(converter.makeApiCall());
+    public List<Currency> persistCurrency(Currency currency) throws JsonProcessingException {
+        JsonNode convertedCurrency = converter.makeApiCall();
+        currency.setConvertedAmount(convertedCurrency.get("result").get("convertedAmount").asDouble());
         currencyRepository.save(currency);
+        return List.of(currency);
     }
 }

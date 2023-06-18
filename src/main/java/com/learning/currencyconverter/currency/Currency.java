@@ -10,10 +10,10 @@ public class Currency {
 
     public Currency() {
     }
-    public Currency(double amount, String currencyFrom, String setCurrencyTo) {
+    public Currency(double amount, String currencyFrom, String currencyTo) {
         this.amount = amount;
         this.currencyFrom = currencyFrom;
-        this.setCurrencyTo = setCurrencyTo;
+        this.currencyTo = currencyTo;
     }
 
     @Id
@@ -30,8 +30,17 @@ public class Currency {
     private Long id;
     private double amount;
     private String currencyFrom;
-    private  String setCurrencyTo;
+    private  String currencyTo;
+    private double convertedAmount;
     private LocalDateTime timestamp;
+
+    public double getConvertedAmount() {
+        return convertedAmount;
+    }
+
+    public void setConvertedAmount(double convertedAmount) {
+        this.convertedAmount = convertedAmount;
+    }
 
     @PrePersist
     protected void onCreate() {
@@ -71,10 +80,10 @@ public class Currency {
     }
 
     public String getCurrencyTo() {
-        return setCurrencyTo;
+        return currencyTo;
     }
 
     public void setCurrencyTo(String to) {
-        this.setCurrencyTo = to;
+        this.currencyTo = to;
     }
 }
