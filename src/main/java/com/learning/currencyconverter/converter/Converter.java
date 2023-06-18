@@ -28,9 +28,11 @@ public class Converter {
         String apiUrl = env.getProperty("app.converter.api");
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("X-RapidAPI-Key", env.getProperty("app.converter.api_key"));
+        headers.set("X-RapidAPI-Host", env.getProperty("app.converter.api_host"));
+
         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(apiUrl)
-                .queryParam("access_key", env.getProperty("app.converter.api_key"))
                 .queryParam("from", "INR")
                 .queryParam("to", "USD")
                 .queryParam("amount", 10000);
