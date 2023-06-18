@@ -20,7 +20,7 @@ public class CurrencyService {
         this.converter = converter;
 
     }
-    public List<Currency> getCurrencies(){
+    public List<Currency> getConvertedCurrencies(){
         return currencyRepository.findAll();
     }
 
@@ -29,5 +29,10 @@ public class CurrencyService {
         currency.setConvertedAmount(convertedCurrency.get("result").get("convertedAmount").asDouble());
         currencyRepository.save(currency);
         return List.of(currency);
+    }
+
+    public JsonNode getCurrenciesList() throws JsonProcessingException {
+        JsonNode supportedCurrencies = converter.supportedCurrenciesList();
+        return supportedCurrencies;
     }
 }

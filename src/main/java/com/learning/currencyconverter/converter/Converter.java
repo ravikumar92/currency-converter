@@ -44,4 +44,19 @@ public class Converter {
         JsonNode response  = objectMapper.readTree(restTemplate.exchange(urlWithParams, HttpMethod.GET ,httpEntity, String.class).getBody());
         return response;
     }
+
+    public JsonNode supportedCurrenciesList() throws JsonProcessingException {
+        String apiUrl = env.getProperty("app.converter.api_supported_currencies");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("X-RapidAPI-Key", env.getProperty("app.converter.api_key"));
+        headers.set("X-RapidAPI-Host", env.getProperty("app.converter.api_host"));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(apiUrl);
+        String urlWithParams = uriBuilder.build().toUriString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode response  = objectMapper.readTree(restTemplate.exchange(urlWithParams, HttpMethod.GET ,httpEntity, String.class).getBody());
+        return response;
+    }
 }
