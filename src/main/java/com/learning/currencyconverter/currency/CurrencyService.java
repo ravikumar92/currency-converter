@@ -25,7 +25,7 @@ public class CurrencyService {
     }
 
     public List<Currency> persistCurrency(Currency currency) throws JsonProcessingException {
-        JsonNode convertedCurrency = converter.makeApiCall();
+        JsonNode convertedCurrency = converter.makeApiCall(currency);
         currency.setConvertedAmount(convertedCurrency.get("result").get("convertedAmount").asDouble());
         currencyRepository.save(currency);
         return List.of(currency);

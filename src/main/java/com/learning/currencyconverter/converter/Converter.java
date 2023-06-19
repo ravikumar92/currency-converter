@@ -3,6 +3,7 @@ package com.learning.currencyconverter.converter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learning.currencyconverter.currency.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -27,7 +28,7 @@ public class Converter {
         this.restTemplate = restTemplate;
     }
 
-    public JsonNode makeApiCall() throws JsonProcessingException {
+    public JsonNode makeApiCall(Currency currency) throws JsonProcessingException {
         String apiUrl = env.getProperty("app.converter.api");
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -36,9 +37,9 @@ public class Converter {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(apiUrl)
-                .queryParam("from", "INR")
-                .queryParam("to", "USD")
-                .queryParam("amount", 10000);
+                .queryParam("from", currency.getCurrencyFrom())
+                .queryParam("to", currency.getCurrencyTo())
+                .queryParam("amount", currency.getAmount());
         String urlWithParams = uriBuilder.build().toUriString();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode response  = objectMapper.readTree(restTemplate.exchange(urlWithParams, HttpMethod.GET ,httpEntity, String.class).getBody());
